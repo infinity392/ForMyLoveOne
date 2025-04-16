@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touch the LOVE!</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .heart-button {
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .heart-icon {
+            font-size: 32px;
+            color: red;
+        }
+        .heart-button:active {
+            transform: scale(1.2);
+            background-color: lightcoral;
+        }
+        #message {
+            display: none;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 1s ease, opacity 1s ease;
+            margin-top: 20px;
+        }
+        #message.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #container2, #container3 {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        #container2.show, #container3.show {
+            display: flex;
+            opacity: 1;
+        }
+        #container3 {
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #container1 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s ease-in-out;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .zoom-out {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        .new-heart {
+            font-size: 50px;
+            color: blue;
+        }
+        .final-heart {
+            font-size: 50px;
+            color: purple;
+        }
+        #loveText {
+            margin-top: 20px;
+            white-space: pre-line;
+            font-size: 24px;
+            animation: fadeIn 1s ease forwards;
+        }
+        .line-animated {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInLine 0.8s ease forwards;
+        }
+        @keyframes fadeInLine {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container1" class="container">
+        <button class="heart-button" onclick="nextScreen()">
+            <span class="heart-icon">❤️</span>
+        </button>
+        <p id="message">Thank you for touching the love!</p>
+    </div>
+
+    <div id="container2" class="container">
+        <button class="heart-button" onclick="nextScreen2()">
+            <span class="heart-icon new-heart">💙</span>
+        </button>
+        <p id="message2">Hello You!</p>
+    </div>
+
+    <div id="container3" class="container">
+        <button class="heart-button" onclick="finalScreen()">
+            <span class="heart-icon final-heart">💜</span>
+        </button>
+        <div id="loveText"></div>
+    </div>
+
+    <script>
+        function nextScreen() {
+            const container1 = document.getElementById('container1');
+            container1.classList.add('zoom-out');
+
+            setTimeout(() => {
+                container1.style.display = 'none';
+                const container2 = document.getElementById('container2');
+                container2.classList.add('show');
+                const message2 = document.getElementById('message2');
+                setTimeout(() => {
+                    message2.classList.add('show');
+                }, 10);
+            }, 1000);
+        }
+
+        function nextScreen2() {
+            const container2 = document.getElementById('container2');
+            container2.classList.remove('show');
+
+            setTimeout(() => {
+                container2.style.display = 'none';
+                const container3 = document.getElementById('container3');
+                container3.classList.add('show');
+                startLoveAnimation();
+            }, 1000);
+        }
+
+        function startLoveAnimation() {
+            const loveText = document.getElementById('loveText');
+            const messages = [
+                "I love you 1%",
+                "I love you 10%",
+                "I love you 20%",
+                "I love you 30%",
+                "I love you 40%",
+                "I love you 50%",
+                "I love you 100%",
+                "I love you 200%",
+                "I love you 300%",
+                "I love you 500%",
+                "I love you 1000%",
+                "I love you ∞"
+            ];
+
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < messages.length) {
+                    const line = document.createElement('div');
+                    line.textContent = messages[index];
+                    line.classList.add('line-animated');
+                    line.style.animationDelay = `${index * 0.2}s`;
+                    loveText.appendChild(line);
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 500);
+        }
+
+        function finalScreen() {
+            alert("Congratulations! You've reached the final screen! 🎉");
+        }
+
+        setTimeout(() => {
+            const message = document.getElementById('message');
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.classList.add('show');
+            }, 10);
+        }, 500);
+    </script>
+</body>
+</html>
